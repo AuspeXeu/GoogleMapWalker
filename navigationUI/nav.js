@@ -10,7 +10,7 @@ function initPano() {
         document.getElementById('pano'), {
             position: {lat: 40.455, lng: -79.929},
             pov: {
-                heading: 0,
+                heading: 90,
                 pitch: 0
             },
             visible: true
@@ -26,7 +26,8 @@ function initPano() {
 function progress() {
     setTimeout(function() {
         var links = panorama.getLinks();
-        var forwardLink = getForwardLink(links, panorama.getPov().heading);
+        var currentHeading = panorama.getPov().heading;
+        var forwardLink = getForwardLink(links, currentHeading);
         if (forwardLink != null) {
             panorama.setPov(/** @type {google.maps.StreetViewPov} */({
                 heading: forwardLink.heading,
@@ -63,13 +64,41 @@ function getForwardLink(links, currentHeading) {
 }
 
 function turnLeft() {
-
+    var currentHeading = panorama.getPov().heading;
+    var newHeading = fixHeading(currentHeading - 90);
+    panorama.setPov(/** @type {google.maps.StreetViewPov} */({
+        heading: newHeading,
+        pitch: 0
+    }));
+    console.log("Now heading: " + newHeading);
 }
 
 function turnRight() {
-    console.log("LEFT");
+    var currentHeading = panorama.getPov().heading;
+    var newHeading = fixHeading(currentHeading + 90);
+    panorama.setPov(/** @type {google.maps.StreetViewPov} */({
+        heading: newHeading,
+        pitch: 0
+    }));
+    console.log("Now heading: " + newHeading);
 }
 
 function reverseDir() {
-    console.log("LEFT");
+    var currentHeading = panorama.getPov().heading;
+    var newHeading = fixHeading(currentHeading - 180);
+    panorama.setPov(/** @type {google.maps.StreetViewPov} */({
+        heading: newHeading,
+        pitch: 0
+    }));
+    console.log("Now heading: " + newHeading);
+}
+
+function fixHeading(heading) {
+    if (heading > 180) {
+        return heading - 360;
+    }
+    if (heading < -180) {
+        return heading + 360;
+    }
+    return heading;
 }
