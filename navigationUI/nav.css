@@ -9,15 +9,54 @@ html, body {
 #pano {
     width: 100%;
     height: 80%;
-    padding-left: 100px;
-    padding: 5px;
     float: left;
+    position: relative;
 }
-#floating-panel {
-    width: 45%;
-    height: 100%;
-    text-align: left;
-    overflow: auto;
-    position: static;
-    border: 0px solid #999;
+
+#navigation {
+    width: 500px;
+    height: 20%;
+    position: absolute;
+    bottom: 0px;
+    left: 30%;
 }
+
+.nav_button {
+    position: absolute;
+}
+
+#left_button {
+}
+
+#right_button {
+    right: 0px;
+}
+
+#reverse_button {
+    left: 40%;
+}
+
+.nav_label {
+    position: absolute;
+    font-size: 20px;
+}
+
+#left_label {
+    width: 150px;
+    height: 40px;
+}
+
+#right_label {
+    right: 0px;
+    width: 150px;
+    height: 40px;
+    text-align: right;
+}
+
+#reverse_label {
+    left: 35%;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+}
+

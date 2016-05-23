@@ -13,11 +13,13 @@
 </head>
 <body>
 <div id="pano"></div>
-<div id="controls"></div>
-<div id="floating-panel">
-    <button name="left" onclick="turnLeft()">Turn Left</button>
-    <button name="reverse" onclick="reverseDir()">Reverse</button>
-    <button name="right" onclick="turnRight()">Turn Right</button>
+<div id="navigation">
+    <button class="nav_button" name="left" id="left_button" onclick="turnLeft()">Turn Left</button>
+    <button class="nav_button" name="reverse" id="reverse_button" onclick="reverseDir()">Reverse</button>
+    <button class="nav_button" name="right" id="right_button" onclick="turnRight()">Turn Right</button>
+    <p class="nav_label" id="left_label"></p>
+    <p class="nav_label" id="right_label"></p>
+    <p class="nav_label" id="reverse_label"></p>
 </div>
 </body>
 </html>

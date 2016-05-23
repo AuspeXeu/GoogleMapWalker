@@ -35,6 +35,10 @@ function progress() {
             }));
             panorama.setPano(forwardLink.pano);
         }
+        var leftLink = getDirectionLink(links, currentHeading, -90);
+        var rightLink = getDirectionLink(links, currentHeading, 90);
+        var reverseLink = getDirectionLink(links, currentHeading, 180);
+        updateLinks(leftLink, rightLink, reverseLink);
     }, 1000);
 }
 
@@ -63,6 +67,11 @@ function getForwardLink(links, currentHeading) {
     return getBestLink(maybeForward, currentHeading);
 }
 
+function getDirectionLink(links, currentHeading, turn) {
+    var turnHeading = fixHeading(currentHeading + turn);
+    return getForwardLink(links, turnHeading);
+}
+
 function turnLeft() {
     var currentHeading = panorama.getPov().heading;
     var newHeading = fixHeading(currentHeading - 90);
@@ -70,7 +79,6 @@ function turnLeft() {
         heading: newHeading,
         pitch: 0
     }));
-    console.log("Now heading: " + newHeading);
 }
 
 function turnRight() {
@@ -80,7 +88,6 @@ function turnRight() {
         heading: newHeading,
         pitch: 0
     }));
-    console.log("Now heading: " + newHeading);
 }
 
 function reverseDir() {
@@ -90,7 +97,6 @@ function reverseDir() {
         heading: newHeading,
         pitch: 0
     }));
-    console.log("Now heading: " + newHeading);
 }
 
 function fixHeading(heading) {
@@ -101,4 +107,22 @@ function fixHeading(heading) {
         return heading + 360;
     }
     return heading;
+}
+
+function updateLinks(leftLink, rightLink, reverseLink) {
+    if (leftLink != null) {
+        document.getElementById("left_label").innerHTML = leftLink.description;
+    } else {
+        document.getElementById("left_label").innerHTML = "";
+    }
+    if (rightLink != null) {
+        document.getElementById("right_label").innerHTML = rightLink.description;
+    } else {
+        document.getElementById("right_label").innerHTML = "";
+    }
+    if (reverseLink != null) {
+        document.getElementById("reverse_label").innerHTML = reverseLink.description;
+    } else {
+        document.getElementById("reverse_label").innerHTML = "";
+    }
 }
