@@ -36,6 +36,16 @@ html, body {
     left: 40%;
 }
 
+#faster_button {
+    left: 20%;
+    top: 50%;
+}
+
+#slower_button {
+    left: 60%;
+    top: 50%;
+}
+
 .nav_label {
     position: absolute;
     font-size: 20px;
@@ -59,4 +69,3 @@ html, body {
     height: 40px;
     text-align: center;
 }
-

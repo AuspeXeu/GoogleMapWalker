@@ -2,6 +2,7 @@
 //example code: https://developers.google.com/maps/documentation/javascript/examples/streetview-events
 
 var panorama;
+var speed = 1020;
 
 function initPano() {
     console.log("initialize pano");
@@ -13,17 +14,33 @@ function initPano() {
                 heading: 90,
                 pitch: 0
             },
-            visible: true
+            visible: true,
+            linksControl: false
         });
 
     panorama.addListener('links_changed', function() {
+        var links = panorama.getLinks();
+        var currentHeading = panorama.getPov().heading;
+        var leftLink = getDirectionLink(links, currentHeading, -90);
+        var rightLink = getDirectionLink(links, currentHeading, 90);
+        var reverseLink = getDirectionLink(links, currentHeading, 180);
+        updateLinks(leftLink, rightLink, reverseLink);
+    });
+
+    panorama.addListener('position_changed', function() {
         progress();
+    });
+
+    panorama.addListener('pano_changed', function() {
+        //document.getElementById("pano_id").innerHTML = panorama.getPano();
+        console.log(panorama.getPano());
     });
 
     return panorama;
 }
 
 function progress() {
+    checkAudio();
     setTimeout(function() {
         var links = panorama.getLinks();
         var currentHeading = panorama.getPov().heading;
@@ -35,11 +52,7 @@ function progress() {
             }));
             panorama.setPano(forwardLink.pano);
         }
-        var leftLink = getDirectionLink(links, currentHeading, -90);
-        var rightLink = getDirectionLink(links, currentHeading, 90);
-        var reverseLink = getDirectionLink(links, currentHeading, 180);
-        updateLinks(leftLink, rightLink, reverseLink);
-    }, 1000);
+    }, speed);
 }
 
 function getBestLink(links, currentHeading) {
@@ -60,7 +73,7 @@ function getForwardLink(links, currentHeading) {
     var maybeForward = [];
     for (var i in links) {
         var link = links[i];
-        if (Math.abs(currentHeading - link.heading) <= 45) {
+        if (Math.abs(currentHeading - link.heading) <= 80) {
             maybeForward.push(link);
         }
     }
@@ -74,30 +87,42 @@ function getDirectionLink(links, currentHeading, turn) {
 
 function turnLeft() {
     var currentHeading = panorama.getPov().heading;
-    var newHeading = fixHeading(currentHeading - 90);
-    panorama.setPov(/** @type {google.maps.StreetViewPov} */({
-        heading: newHeading,
-        pitch: 0
-    }));
+    var links = panorama.getLinks();
+    var leftLink = getDirectionLink(links, currentHeading, -90);
+    if (leftLink !=null) {
+        followLink(leftLink);
+    }
+    //progress();
 }
 
 function turnRight() {
     var currentHeading = panorama.getPov().heading;
-    var newHeading = fixHeading(currentHeading + 90);
+    var links = panorama.getLinks();
+    var rightLink = getDirectionLink(links, currentHeading, 90);
+    if (rightLink != null) {
+        followLink(rightLink);
+    }
+    //progress();
+}
+
+function reverseDir() {
+    var currentHeading = panorama.getPov().heading;
+    var links = panorama.getLinks();
+    var reverseLink = getDirectionLink(links, currentHeading, 180);
+    if (reverseLink != null) {
+        followLink(reverseLink);
+    }
+    //progress();
+}
+
+function followLink(link) {
+    var newHeading = link.heading;
     panorama.setPov(/** @type {google.maps.StreetViewPov} */({
         heading: newHeading,
         pitch: 0
     }));
 }
 
-function reverseDir() {
-    var currentHeading = panorama.getPov().heading;
-    var newHeading = fixHeading(currentHeading - 180);
-    panorama.setPov(/** @type {google.maps.StreetViewPov} */({
-        heading: newHeading,
-        pitch: 0
-    }));
-}
 
 function fixHeading(heading) {
     if (heading > 180) {
@@ -124,5 +149,45 @@ function updateLinks(leftLink, rightLink, reverseLink) {
         document.getElementById("reverse_label").innerHTML = reverseLink.description;
     } else {
         document.getElementById("reverse_label").innerHTML = "";
+    }
+}
+
+function faster() {
+    if (speed >= 520) {
+        speed = speed - 500;
+    }
+}
+
+function slower() {
+    speed = speed + 500;
+}
+
+function checkAudio() {
+    //Audio
+    var intro = new Audio('audio/intro.m4a');
+    var college = new Audio('audio/college.m4a');
+    var fifth = new Audio('audio/fifth.m4a');
+    var shady = new Audio('audio/shady.m4a');
+    var mellon = new Audio('audio/mellon.m4a');
+    var arrived = new Audio('audio/arrived.m4a');
+
+    var panoID = panorama.getPano();
+    if (panoID=="EME2ljxHxu0cLMCnJEApOg") {
+        intro.play();
+    }
+    if (panoID=="KWpllTkTLiqxZKNxPXTrgQ") {
+        college.play();
+    }
+    if (panoID=="4nuNGHuHzaKt0j3JXFgbWg") {
+        fifth.play();
+    }
+    if (panoID=="UJb5tu0GjZGaAYWaHMV4vg") {
+        shady.play();
+    }
+    if (panoID=="8nLXbODOS0ewStG7VUy08Q") {
+        mellon.play();
+    }
+    if (panoID=="fXTISgSijhOs_wnVPnmKDw") {
+        arrived.play();
     }
 }
