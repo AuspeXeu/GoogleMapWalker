@@ -1,0 +1,12 @@
+Driver: Andrew
+Passenger: Vivian
+Route: pdx1
+Task: 20 questions (Vivian asking)
+Time: 10-ish minutes??
+- decent amount of back and forth, but maybe only because of Andrew's style of answering questions (not just yes/no answers)
+- "The passenger needs to know how polite to be to help the driver drive"
+- "It's weird to go backwards" -> moderately disconcerting
+- "There needs to be more time at intersections to turn"
+- "Notifications were interruptive -> felt like a real map"
+- "not hard to get back to the game after being interrupted"
+- probably need MORE interruptions

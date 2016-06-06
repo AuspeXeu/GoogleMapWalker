@@ -3,15 +3,16 @@
 
 var panorama;
 var speed = 1020;
+var offPath = 0;
 
 function initPano() {
     console.log("initialize pano");
 
     panorama = new google.maps.StreetViewPanorama(
         document.getElementById('pano'), {
-            position: {lat: 40.455, lng: -79.929},
+            position: {lat: latstart, lng: lngstart},
             pov: {
-                heading: 90,
+                heading: startHeading,
                 pitch: 0
             },
             visible: true,
@@ -25,10 +26,13 @@ function initPano() {
         var rightLink = getDirectionLink(links, currentHeading, 90);
         var reverseLink = getDirectionLink(links, currentHeading, 180);
         updateLinks(leftLink, rightLink, reverseLink);
-    });
-
-    panorama.addListener('position_changed', function() {
-        progress();
+        checkAudio();
+        if (leftLink!=null || rightLink!=null) {
+            console.log("Intersection");
+            progress(speed + 1000);
+        } else {
+            progress(speed);
+        }
     });
 
     panorama.addListener('pano_changed', function() {
@@ -39,9 +43,10 @@ function initPano() {
     return panorama;
 }
 
-function progress() {
-    checkAudio();
+function progress(nextSpeed) {
+    console.log("About to progress with speed " + nextSpeed);
     setTimeout(function() {
+        console.log("Progressig with speed " + nextSpeed);
         var links = panorama.getLinks();
         var currentHeading = panorama.getPov().heading;
         var forwardLink = getForwardLink(links, currentHeading);
@@ -52,7 +57,21 @@ function progress() {
             }));
             panorama.setPano(forwardLink.pano);
         }
-    }, speed);
+    }, nextSpeed);
+}
+
+function intersection() {
+    var links = panorama.getLinks();
+    var currentHeading = panorama.getPov().heading;
+    var leftLink = getDirectionLink(links, currentHeading, -90);
+    if (leftLink != null) {
+        return true;
+    }
+    var rightLink = getDirectionLink(links, currentHeading, 90);
+    if (rightLink != null) {
+        return true;
+    }
+    return false;
 }
 
 function getBestLink(links, currentHeading) {
@@ -163,31 +182,23 @@ function slower() {
 }
 
 function checkAudio() {
-    //Audio
-    var intro = new Audio('audio/intro.m4a');
-    var college = new Audio('audio/college.m4a');
-    var fifth = new Audio('audio/fifth.m4a');
-    var shady = new Audio('audio/shady.m4a');
-    var mellon = new Audio('audio/mellon.m4a');
-    var arrived = new Audio('audio/arrived.m4a');
-
     var panoID = panorama.getPano();
-    if (panoID=="EME2ljxHxu0cLMCnJEApOg") {
-        intro.play();
-    }
-    if (panoID=="KWpllTkTLiqxZKNxPXTrgQ") {
-        college.play();
-    }
-    if (panoID=="4nuNGHuHzaKt0j3JXFgbWg") {
-        fifth.play();
-    }
-    if (panoID=="UJb5tu0GjZGaAYWaHMV4vg") {
-        shady.play();
-    }
-    if (panoID=="8nLXbODOS0ewStG7VUy08Q") {
-        mellon.play();
-    }
-    if (panoID=="fXTISgSijhOs_wnVPnmKDw") {
-        arrived.play();
+    var i = path.indexOf(panoID);
+    if (i < 0) {
+        offPath += 1;
+        if (offPath == 2 || offPath == 10) {
+            var wrong = new Audio('audio/wrong.m4a')
+            wrong.play();
+        }
+        if (offPath > 3 && wrongWayTurns.has(panoID)) {
+            wrongWayTurns.get(panoID).play();
+        }
+    } else {
+        offPath = 0;
+        var target = path[i+advance];
+        if (audioTargets.has(target)) {
+            audioTargets.get(target).play();
+        }
+
     }
 }
