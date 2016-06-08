@@ -16,7 +16,7 @@ function initPano() {
                 pitch: 0
             },
             visible: true,
-            linksControl: false
+            linksControl: true
         });
 
     panorama.addListener('links_changed', function() {
@@ -27,7 +27,7 @@ function initPano() {
         var reverseLink = getDirectionLink(links, currentHeading, 180);
         updateLinks(leftLink, rightLink, reverseLink);
         checkAudio();
-        if (leftLink!=null || rightLink!=null) {
+        if (intersection(leftLink, rightLink)) {
             console.log("Intersection");
             progress(speed + 1000);
         } else {
@@ -44,9 +44,7 @@ function initPano() {
 }
 
 function progress(nextSpeed) {
-    console.log("About to progress with speed " + nextSpeed);
     setTimeout(function() {
-        console.log("Progressig with speed " + nextSpeed);
         var links = panorama.getLinks();
         var currentHeading = panorama.getPov().heading;
         var forwardLink = getForwardLink(links, currentHeading);
@@ -60,15 +58,11 @@ function progress(nextSpeed) {
     }, nextSpeed);
 }
 
-function intersection() {
-    var links = panorama.getLinks();
-    var currentHeading = panorama.getPov().heading;
-    var leftLink = getDirectionLink(links, currentHeading, -90);
-    if (leftLink != null) {
+function intersection(leftLink, rightLink) {
+    if (leftLink!=null && leftLink.description!="") {
         return true;
     }
-    var rightLink = getDirectionLink(links, currentHeading, 90);
-    if (rightLink != null) {
+    if (rightLink!=null && rightLink.description!="") {
         return true;
     }
     return false;
@@ -92,7 +86,8 @@ function getForwardLink(links, currentHeading) {
     var maybeForward = [];
     for (var i in links) {
         var link = links[i];
-        if (Math.abs(currentHeading - link.heading) <= 80) {
+        var diff = Math.min(Math.abs(currentHeading-link.heading), Math.abs(currentHeading-(link.heading-360)), Math.abs(currentHeading-(link.heading+360)))
+        if (diff <= 88) {
             maybeForward.push(link);
         }
     }
@@ -109,9 +104,8 @@ function turnLeft() {
     var links = panorama.getLinks();
     var leftLink = getDirectionLink(links, currentHeading, -90);
     if (leftLink !=null) {
-        followLink(leftLink);
+        followLink(leftLink, fixHeading(currentHeading-90));
     }
-    //progress();
 }
 
 function turnRight() {
@@ -119,9 +113,8 @@ function turnRight() {
     var links = panorama.getLinks();
     var rightLink = getDirectionLink(links, currentHeading, 90);
     if (rightLink != null) {
-        followLink(rightLink);
+        followLink(rightLink, fixHeading(currentHeading+90));
     }
-    //progress();
 }
 
 function reverseDir() {
@@ -129,17 +122,17 @@ function reverseDir() {
     var links = panorama.getLinks();
     var reverseLink = getDirectionLink(links, currentHeading, 180);
     if (reverseLink != null) {
-        followLink(reverseLink);
+        followLink(reverseLink, fixHeading(currentHeading+180));
     }
     //progress();
 }
 
-function followLink(link) {
-    var newHeading = link.heading;
-    panorama.setPov(/** @type {google.maps.StreetViewPov} */({
+function followLink(link, newHeading) {
+    panorama.setPov(/** @type {google.maps.StreetViewPov}*/ ({
         heading: newHeading,
         pitch: 0
     }));
+    panorama.setPano(link.pano);
 }
 
 
