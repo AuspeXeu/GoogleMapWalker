@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Navigating</title>
+    <link href="nav.css" rel="stylesheet" type="text/css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNhtaAAgLw0q8SbA0EazhcoWa4za0N8-A"></script>
+    <script type="text/javascript" src="nav.js"></script>
+    <script type="text/javascript" src="findpath.js"></script>
+    <script>
+        var turn_names = ["Avenue O", "E 23rd St"]; //["Avenue O", "E 22nd St", "Avenue N", "E 24th St", "Avenue L", "E 27th St", "Avenue K", "Nostrand Avenue", "Avenue M", "Bedford Avenue"];
+        var turn_dirs = ["L", "L"]; //["L", "R", "R", "L", "R", "L", "R", "R", "R", "R"];
+        var latstart = 40.612846;
+        var lngstart = -73.950058;
+        var advance = 3;
+        var startHeading = 0;
+
+        var turn_pano = "ndxJC67vf7lTU9lQMcnOaQ";
+        var turn_heading = -8.321810722351074;
+
+        /*var pathFile = new File("paths.txt");
+        var targetFile = new File("targets.txt");
+        var overshotFile = new File("overshots.txt");
+        pathFile.open("w");
+        targetFile.open("w");
+        overshotFile.open("w"); */
+    </script>
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNhtaAAgLw0q8SbA0EazhcoWa4za0N8-A&callback=overshot"
+            async defer>
+    </script>
+
+</head>
+<body>
+<div id="pano"></div>
+<div id="navigation">
+    <button class="nav_button" name="left" id="left_button" onclick="turnLeft()">Turn Left</button>
+    <button class="nav_button" name="reverse" id="reverse_button" onclick="reverseDir()">Reverse</button>
+    <button class="nav_button" name="right" id="right_button" onclick="turnRight()">Turn Right</button>
+    <button class="nav_button" name="faster" id="faster_button" onclick="faster()">Speed Up</button>
+    <button class="nav_button" name="slower" id="slower_button" onclick="slower()">Slow Down</button>
+    <p class="nav_label" id="left_label"></p>
+    <p class="nav_label" id="right_label"></p>
+    <p class="nav_label" id="reverse_label"></p>
+</div>
+</body>
+</html>
