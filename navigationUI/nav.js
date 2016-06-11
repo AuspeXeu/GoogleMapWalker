@@ -28,7 +28,6 @@ function initPano() {
         updateLinks(leftLink, rightLink, reverseLink);
         checkAudio();
         if (intersection(leftLink, rightLink)) {
-            console.log("Intersection");
             progress(speed + 1000);
         } else {
             progress(speed);
@@ -177,6 +176,7 @@ function slower() {
 function checkAudio() {
     var panoID = panorama.getPano();
     var i = path.indexOf(panoID);
+
     if (i < 0) {
         offPath += 1;
         if (offPath == 2 || offPath == 10) {
