@@ -13,7 +13,7 @@ function startFind() {
                 pitch: 0
             },
             visible: true,
-            linksControl: true
+            linksControl: false
         });
 
     panorama.addListener('links_changed', function() {
@@ -25,7 +25,7 @@ function startFind() {
         updateLinks(leftLink, rightLink, reverseLink);
         var next_dir = turn_dirs[turn_index];
         var next_turn = turn_names[turn_index];
-        console.log(panorama.getPano());
+        //console.log(panorama.getPano());
         //pathFile.writeln(panorama.getPano());
         if (turn_index < turn_names.length) {
             if (leftTurn(leftLink, next_dir, next_turn)) {

@@ -1,0 +1,40 @@
+Google Street View Navigation
+==============================
+Google Street View can be used to "walk" through the streets of a city by continuously clicking arrows.
+This program makes the panorama progress automatically, mimicking the feeling of driving, or simply reducing the amount of button-pressing needed.
+
+Google Maps API Key
+--------------------
+Before using this code, please replace the Google Maps API key with your own.
+Get a key: https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend&keyType=CLIENT_SIDE&reusekey=true
+Replace key in html files: src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&...
+
+Open Walk
+----------
+Use nav_open.html to go in a direction of your choice with no constraints. Change latstart, lngstart, and startHeading to change the initial starting point and direction.
+If it appears to get stuck, clicking ahead of you will typically make it start again.
+
+Guided Walk
+------------
+Use nav_nyc1.html or nav_pdx1.html to follow a path with audio directions.
+
+Create Guided Walk
+-------------------
+To create a guided walk, you must know:
+ * the starting latitude/longitude
+ * all the pano IDs on the path
+ * all the pano IDs at turns
+ * the ending pano ID
+
+In nav_drawpath.html, enter the turn names and directions of your path. It is currently set up with the NYC1 path.
+The program will then attempt to walk that path in google street view. In the console, it will output all the pano IDs it crosses, and the pano ID and heading of each turning point.
+To create a new path, copy all the pano IDs into the path in the html file. Each turning point should have a corresponding audio file.
+
+Optionally, you can also create overshot/wrong way turns. If a person fails to take a turn, these notifications tell them to turn in the opposite direction as they head the other way.
+The process of creating them unfortunately could use more automation.
+To create one:
+ * in nav_drawpath.html, replace startFind with overshot
+ * var turn_pano = pano ID of intersection (found in previous step)
+ * var turn_heading = heading of intersection (also output in previous step)
+
+The IDs output in the console must then be paired with the appropriate audio.

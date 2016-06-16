@@ -4,23 +4,17 @@
     <meta charset="utf-8">
     <title>Navigating</title>
     <link href="nav.css" rel="stylesheet" type="text/css">
-    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNhtaAAgLw0q8SbA0EazhcoWa4za0N8-A"></script>-->
     <script type="text/javascript" src="nav.js"></script>
-    <script type="text/javascript" src="findpath.js"></script>
-    <script>
-        var turn_names = ["Avenue O", "E 22nd St", "Avenue N", "E 24th St", "Avenue L", "E 27th St", "Avenue K", "Nostrand Ave", "Avenue L", "Bedford Ave", "Avenue I", "Ocean Ave", "Newkirk Ave", "E 26th St", "Cortelyou Rd", "E 29th St", "Tilden Ave", "Rogers Ave", "Albemarle Rd"];
-        var turn_dirs = ["L", "R", "R", "L", "R", "L", "R", "R", "R", "R", "L", "R", "R", "L", "R", "L", "L", "R", "L"];
-        var latstart = 40.612846;
-        var lngstart = -73.950058;
-        var advance = 3;
-        var startHeading = 0;
-
-        var turn_pano = "ndxJC67vf7lTU9lQMcnOaQ";
-        var turn_heading = -8.321810722351074;
-    </script>
     <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNhtaAAgLw0q8SbA0EazhcoWa4za0N8-A&callback=startFind"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNhtaAAgLw0q8SbA0EazhcoWa4za0N8-A&callback=initPano"
             async defer>
+    </script>
+    <script>
+        var latstart = 40.444616;
+        var lngstart = -79.942983;
+        var advance = 3;
+        var startHeading = -90;
+        var path = [];
     </script>
 
 </head>

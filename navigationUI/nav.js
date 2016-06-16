@@ -16,7 +16,7 @@ function initPano() {
                 pitch: 0
             },
             visible: true,
-            linksControl: true
+            linksControl: false
         });
 
     panorama.addListener('links_changed', function() {
@@ -26,7 +26,9 @@ function initPano() {
         var rightLink = getDirectionLink(links, currentHeading, 90);
         var reverseLink = getDirectionLink(links, currentHeading, 180);
         updateLinks(leftLink, rightLink, reverseLink);
-        checkAudio();
+        if (path.length > 0) {
+            checkAudio();
+        }
         if (intersection(leftLink, rightLink)) {
             progress(speed + 1000);
         } else {
@@ -34,10 +36,9 @@ function initPano() {
         }
     });
 
-    panorama.addListener('pano_changed', function() {
-        //document.getElementById("pano_id").innerHTML = panorama.getPano();
+    /*panorama.addListener('pano_changed', function() {
         console.log(panorama.getPano());
-    });
+    });*/
 
     return panorama;
 }
