@@ -124,7 +124,6 @@ function reverseDir() {
     if (reverseLink != null) {
         followLink(reverseLink, fixHeading(currentHeading+180));
     }
-    //progress();
 }
 
 function followLink(link, newHeading) {

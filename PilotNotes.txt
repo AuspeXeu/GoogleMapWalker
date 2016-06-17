@@ -10,3 +10,14 @@ Time: 10-ish minutes??
 - "Notifications were interruptive -> felt like a real map"
 - "not hard to get back to the game after being interrupted"
 - probably need MORE interruptions
+
+
+Driver: Juneki
+Passenger: Hai
+Route: nyc1
+Task: collaborative storytelling
+Time: 9-ish minutes?
+- conversation started out a bit awkward, but they got into it relatively quickly
+- interface is kind of wonky. "turn left here" would be easier than "turn left at ellsworth"
+- comments on task: unstructed. increases the mental load if people aren't used to doing this stuff. might be better to start people off with something, or give some guidance. felt drawn into story at detriment of paying attention to the directions. might be easier with people who are already friends. increased mental load because story was going in different directions
+- had one instance of getting really off course and i had to correct the path

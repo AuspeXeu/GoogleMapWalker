@@ -4,7 +4,7 @@
 
 var turn_index = 0;
 
-function startFind() {
+function walkPath() {
     panorama = new google.maps.StreetViewPanorama(
         document.getElementById('pano'), {
             position: {lat: latstart, lng: lngstart},
